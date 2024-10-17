@@ -1,34 +1,49 @@
 package game.players;
 
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
+import game.piles.Card;
+
 import java.util.ArrayList;
-import java.util.Scanner;
 
-import javax.smartcardio.Card;
+public abstract class Player<T extends Enum<T>> {
 
-public class player {
-    public int playerID;
-		public boolean online;
-		public boolean isBot;
-		public Socket connection;
-		public ObjectInputStream inFromClient;
-		public ObjectOutputStream outToClient;
-		public ArrayList<String> region = new ArrayList<String>();
-		Scanner in = new Scanner(System.in);
-		public ArrayList<Card> hand = new ArrayList<Card>();
-		public int score = 0;
+    // Player attributes
+    protected int playerID;
+    protected boolean online;
+    protected ArrayList<Card<T>> hand = new ArrayList<>();
+    protected long seed;
 
+    // Constructor
+    public Player(int playerID, long seed) {
+        this.playerID = playerID;
+        this.seed = seed;
+    }
 
+    // Method to add a card to the player's hand
+    public void addCardToHand(Card<T> card) {
+        hand.add(card);
+    }
 
-		public Player(int playerID, boolean isBot, Socket connection, ObjectInputStream inFromClient, ObjectOutputStream outToClient) {
-			this.playerID = playerID; this.connection = connection; this.inFromClient = inFromClient; this.outToClient = outToClient; this.isBot = isBot;
-			if(connection == null)
-				this.online = false;
-			else
-				this.online = true;
-		}
-		
-		
+    // Method to get the player's unique ID
+    public int getPlayerID() {
+        return this.playerID;
+    }
+
+    // Method to get the player's current hand of cards
+    public ArrayList<Card<T>> getHand() {
+        return this.hand;
+    }
+
+    // Abstract method to send a message (must be defined by subclasses)
+    public abstract void sendMessage(Object message);
+
+    // Abstract method to read a message (must be defined by subclasses)
+    public abstract String readMessage();
+
+    // Abstract method to determine if the player is a bot (must be defined by subclasses)
+    public abstract boolean isBot();
+
+    // Method to get the player's seed (randomization)
+    public long getSeed() {
+        return this.seed;
+    }
 }
