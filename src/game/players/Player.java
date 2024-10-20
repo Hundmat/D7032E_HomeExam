@@ -1,25 +1,57 @@
 package game.players;
 
 import game.piles.Card;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
-public abstract class Player<T extends Enum<T>> {
+public abstract class Player {
 
     // Player attributes
     protected int playerID;
-    protected boolean online;
-    protected ArrayList<Card<T>> hand = new ArrayList<>();
-    protected long seed;
+    public boolean online;
+    protected ArrayList<Card> hand = new ArrayList<>();
+    protected Socket connection;
+    public ObjectInputStream inFromClient;
+    public ObjectOutputStream outToClient;
+    protected int score = 0;
+
 
     // Constructor
-    public Player(int playerID, long seed) {
+    public Player(int playerID, Socket connection, ObjectInputStream inFromClient, ObjectOutputStream outToClient, boolean online) {
         this.playerID = playerID;
-        this.seed = seed;
+        this.connection = connection;
+        this.inFromClient = inFromClient;
+        this.outToClient = outToClient;
+    }
+
+    public void sendMessage(Object message) {
+		
+		if(online) {
+            try {outToClient.writeObject(message);} catch (Exception e) {}
+        }
+	}
+
+    public void setScore(int score) {
+		this.score = score;
+   }
+
+   public int getScore() {
+	   return this.score;
+   }
+
+	public String readMessage() {
+        String word = ""; 
+			
+		try{word = (String) inFromClient.readObject();} catch (Exception e){}
+        return word;
     }
 
     // Method to add a card to the player's hand
-    public void addCardToHand(Card<T> card) {
+    public void addCardToHand(Card card) {
         hand.add(card);
     }
 
@@ -29,21 +61,19 @@ public abstract class Player<T extends Enum<T>> {
     }
 
     // Method to get the player's current hand of cards
-    public ArrayList<Card<T>> getHand() {
+    public ArrayList<Card> getHand() {
         return this.hand;
     }
 
-    // Abstract method to send a message (must be defined by subclasses)
-    public abstract void sendMessage(Object message);
-
-    // Abstract method to read a message (must be defined by subclasses)
-    public abstract String readMessage();
+  
 
     // Abstract method to determine if the player is a bot (must be defined by subclasses)
     public abstract boolean isBot();
 
-    // Method to get the player's seed (randomization)
-    public long getSeed() {
-        return this.seed;
-    }
+    public void update(ObjectInputStream inFromClient, ObjectOutputStream outToClient, Socket connection,boolean online) {
+		this.inFromClient = inFromClient;
+		this.outToClient = outToClient;
+		this.connection = connection;
+        this.online = online;
+	}
 }

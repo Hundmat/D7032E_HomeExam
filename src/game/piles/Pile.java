@@ -3,63 +3,78 @@ package game.piles;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Pile <T extends Enum<T>> {
-    public ArrayList<Card<T>> cards = new ArrayList<Card<T>>();
-    int playingField;
-    public ArrayList<Card<T>> fieldCards;
-    long seed;
-    public Pile(int playingField, long seed) {
-        this.playingField = playingField;
-        this.seed = seed;
+public class Pile{
+   
+    
+    public ArrayList<Card> cards = new ArrayList<Card>();
+    
 
-
-        this.fieldCards = new ArrayList<Card<T>>();
-        this.fieldCards.ensureCapacity(playingField);
-
+    public Pile() {
         
-        try {
-            setFieldCards();
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Error setting field cards, no cards in pile");
-        }
-
+        
+        
     }
 
-    public void addCard(Card<T> card) {
+    public void addCard(Card card) {
         cards.add(card);
     }
+    
+    public ArrayList<Card> getAll() {
+        return cards;
+    }
 
-    public Card<T> buyCard() {
+    public Card buyCard(int i) {
         if(cards.size() > 0) {
-            return cards.remove(0);
+            return cards.remove(i);
         } else {
             return null;
         }
     }
 
-    public Card<T> getCard() {
+    public Card getCard(int i) {
         if(cards.size() > 0) {
-            return cards.get(0);
+            return cards.get(i);
         } else {
             return null;
         }
     }
 
-    public void flipSide() {
+    public Card buyLastCard() {
         if(cards.size() > 0) {
+            cards.get(cards.size() - 1).flipSide();
+            return cards.remove(cards.size() - 1);
+        } else {
+            return null;
+        }
+    }
+
+    public Card toMarket() {
+        if(cards.size() > 0) {
+            
             cards.get(0).flipSide();
+            return cards.remove(0);
+            
         }
+        else {
+            return null;
+        }
+    }
+
+    public int getSize() {
+        return cards.size();
     }
 
     public void shuffleDeck() {
 		Collections.shuffle(cards);
 	}
-
-    private void setFieldCards() {
-        for(int i = 0; i < playingField; i++) {
-            this.fieldCards.add(cards.remove(0));
-            this.fieldCards.get(0).criteriaSideUp = false;
-        }
+    
+    public boolean isEmpty() {
+        return cards.isEmpty();
     }
+
+    public void set(int i, Card card) {
+        cards.set(i, card);
+    }
+    
+    
 }

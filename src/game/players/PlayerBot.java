@@ -3,28 +3,31 @@ package game.players;
 
 import java.util.ArrayList;
 import game.piles.Card;
+import java.net.Socket;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 
-public class PlayerBot<T extends Enum<T>> extends Player<T> {
-    public ArrayList<Card<T>> hand;
+public class PlayerBot extends Player {
+    public ArrayList<Card> hand;
     private String nextChoise = null;
     private String message;
 
-    public PlayerBot(int playerID,long seed){
-        super(playerID,seed);
-        this.playerID = playerID;
-        this.hand = new ArrayList<Card<T>>();
+    public PlayerBot(int playerID, Socket connection, ObjectInputStream inFromClient, ObjectOutputStream outToClient, boolean online){
+        super(playerID, connection, inFromClient, outToClient,online);
+        
+        this.hand = new ArrayList<Card>();
     }
 
     public int getPlayerID() {
         return this.playerID;
     }
 
-    public void addCardToHand(Card<T> card) {
+    public void addCardToHand(Card card) {
         hand.add(card);
     }
 
-    public ArrayList<Card<T>> getHand() {
+    public ArrayList<Card> getHand() {
         return this.hand;
     }
 
@@ -33,19 +36,12 @@ public class PlayerBot<T extends Enum<T>> extends Player<T> {
         return true;  
     }
 
-    @Override
-    public void sendMessage(Object message) {
-        System.out.println(message);
-        this.message = (String) message;
-    }
-
-    public long getSeed() {
-		return this.seed;
+    public void update(ObjectInputStream inFromClient, ObjectOutputStream outToClient, Socket connection) {
+		this.inFromClient = inFromClient;
+		this.outToClient = outToClient;
+		this.connection = connection;
 	}
-
-    @Override
-    public String readMessage() {
-        return this.message;
-    }
+  
+    
     
 }

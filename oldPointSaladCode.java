@@ -4,6 +4,8 @@ import java.util.Scanner;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import game.PointSalad;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,6 +41,8 @@ public class oldPointSaladCode {
 			else
 				this.online = true;
 		}
+
+		
 		public void sendMessage(Object message) {
 			if(online) {
 				try {outToClient.writeObject(message);} catch (Exception e) {}

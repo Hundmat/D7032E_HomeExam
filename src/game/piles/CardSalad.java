@@ -1,39 +1,47 @@
 package game.piles;
 
 
-public class CardSalad extends Card<CardSalad.Vegetable> {
+public class CardSalad extends Card {
     public enum Vegetable {
         PEPPER, LETTUCE, CARROT, CABBAGE, ONION, TOMATO
     }
 
     public Vegetable vegetable;
-    public String criteria;
-    public boolean criteriaSideUp = true;
 
     public CardSalad(Vegetable vegetable, String criteria) {
         this.vegetable = vegetable;
         this.criteria = criteria;
     }
 
+    public Enum getCardType(String type) {
+        return Vegetable.valueOf(type);
+    }
+
     public void flipSide() {
-        criteriaSideUp = !criteriaSideUp;
+        this.criteriaSideUp = !this.criteriaSideUp;
     }
 
     @Override
     public String toString() {
-        if(criteriaSideUp) {
-            return criteria + " (" + vegetable + ")";
+        if(this.criteriaSideUp) {
+            return this.criteria + " (" + this.vegetable + ")";
         } else {
-            return vegetable.toString();
+            return this.vegetable.toString();
         }
     }
 
     public boolean criteriaSideUp() {
-        return criteriaSideUp;
+        return this.criteriaSideUp;
     }
+
+    
 
     @Override
     public Vegetable getCardType() {
         return this.vegetable;
+    }
+
+    public String getCriteria() {
+        return this.criteria;
     }
 }
