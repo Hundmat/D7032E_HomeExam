@@ -5,8 +5,10 @@ import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
 import java.util.Scanner;
 
-public class Client{
-    public Client(String ipAddress) throws Exception {
+public class Client implements IClient{
+    
+
+    public void runClient(String ipAddress) throws Exception {
         //Connect to server
         Socket aSocket = new Socket(ipAddress, 2048);
         ObjectOutputStream outToServer = new ObjectOutputStream(aSocket.getOutputStream());

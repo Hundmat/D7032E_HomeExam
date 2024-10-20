@@ -7,12 +7,13 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-public class Server {
+public class Server implements IServer{
     private int numberPlayers;
     private int numberOfBots;
     private ArrayList<Player> players;
 
-    public Server(int numberPlayers, int numberOfBots, ArrayList<Player> players ) throws Exception {
+
+    public void runServer(int numberPlayers, int numberOfBots, ArrayList<Player> players ) throws Exception{
         ServerSocket aSocket = null;
         this.numberPlayers = numberPlayers;
         this.numberOfBots = numberOfBots;
@@ -36,7 +37,5 @@ public class Server {
             outToClient.writeObject("You connected to the server as player " + i + "\n");
 
         }    
-
-        
     }
 }

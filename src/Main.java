@@ -1,13 +1,14 @@
-import java.util.Scanner;
-import java.util.ArrayList;
-import network.Server;
-import game.players.Player;
 import game.bot.PlayerBot;
 import game.players.HumanPlayer;
-import network.Client;
+import game.players.Player;
+import network.IClient;
+import network.IServer;
+import java.util.ArrayList;
+import java.util.Scanner;
 
-public class MainSalad {
-    private Server server;
+public abstract class Main {
+    private IServer server;
+    IClient client;
     private int numberPlayers = 0;
     private int numberOfBots = 0;
     private ArrayList<Player> players = new ArrayList<>();
@@ -17,10 +18,10 @@ public class MainSalad {
         Scanner in = new Scanner(System.in);
  
         try {
-            System.out.println("Please enter the number of players (1-6): ");
+            System.out.println("Please enter the number of players");
             numberPlayers = in.nextInt();
 
-            System.out.println("Please enter the number of bots (0-5): ");
+            System.out.println("Please enter the number of bots");
             numberOfBots = in.nextInt();
 
             
@@ -40,7 +41,7 @@ public class MainSalad {
         System.out.println(players);
         try {
             System.out.println("Server started");
-            server = new Server();
+            
             server.runServer(numberPlayers, numberOfBots, players);
         } catch (Exception e) {
             e.printStackTrace();
@@ -51,7 +52,6 @@ public class MainSalad {
 
     private void clientStart(String host) {
         try {
-            Client client = new Client();
             client.runClient(host);
         } catch (Exception e) {
             e.printStackTrace();
@@ -61,7 +61,10 @@ public class MainSalad {
 
     // The main method must be static
     public static void main(String[] args) {
-        MainSalad instance = new MainSalad(); // Create an instance of the class
+        /**
+         * Creates an instance of the Main class.
+         */
+        Main instance = new Main() {}; // Create an anonymous subclass instance of the abstract class
         System.out.println(args[0]);
         if (args.length > 0 && args[0].equals("server")) { // Check if argument is 'server'
             instance.serverStart(); // Call the server start method
@@ -69,6 +72,4 @@ public class MainSalad {
             instance.clientStart("127.0.0.1"); // Call the client start method
         }
     }
-       
 }
-

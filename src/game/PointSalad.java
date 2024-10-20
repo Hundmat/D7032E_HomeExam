@@ -19,7 +19,7 @@ public class PointSalad{
     int currentPlayer;
     boolean keepPlaying;
     Player activePlayer;
-    RefileMarket refiller;
+    RefileMarketSalad refiller;
     Player thisPlayer;
 
 	
@@ -56,7 +56,7 @@ public class PointSalad{
 		this.market = new MarketPile(piles.getPiles().size());
         this.marketPrinter = new MarketPrinter(this.market);
         
-        this.refiller = new RefileMarket(this.market, this.piles); 
+        this.refiller = new RefileMarketSalad(this.market, this.piles); 
         System.out.println(this.players.get(0).getPlayerID());
         System.out.println(this.players.get(1).getPlayerID());
 
