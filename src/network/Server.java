@@ -36,7 +36,7 @@ public class Server {
             outToClient.writeObject("You connected to the server as player " + i + "\n");
 
         }    
-        
+
         
     }
 }

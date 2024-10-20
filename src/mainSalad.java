@@ -2,9 +2,8 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import network.Server;
 import game.players.Player;
+import game.bot.PlayerBot;
 import game.players.HumanPlayer;
-import game.players.PlayerBot;
-
 import network.Client;
 
 public class mainSalad {
@@ -34,7 +33,7 @@ public class mainSalad {
         for (int i = 0; i < numberOfBots; i++) {
             players.add(new PlayerBot(i,null, null, null,false)); //add this instance as a player
         }
-        for (int i = 0; i < numberPlayers; i++) {
+        for (int i = numberOfBots; i < numberPlayers+numberOfBots; i++) {
             players.add(new HumanPlayer(i,null, null, null,false)); //add this instance as a player
         }
 

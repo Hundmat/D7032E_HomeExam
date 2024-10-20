@@ -30,6 +30,9 @@ public class MarketPile extends PileHandler {
         
     }
 
+    public Card getCardFromMarket(int pile, int cardIndex) {
+        return this.marketPile.get(pile).getCard(cardIndex);
+    }
 
     public Card buyCard(int pile, int cardIndex) {
         

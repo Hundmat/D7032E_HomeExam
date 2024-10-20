@@ -13,7 +13,7 @@ public class CardSalad extends Card {
         this.criteria = criteria;
     }
 
-    public Enum getCardType(String type) {
+    public Enum<Vegetable> getCardType(String type) {
         return Vegetable.valueOf(type);
     }
 

@@ -1,5 +1,6 @@
 package game;
 
+import game.bot.BotLogicSalad;
 import game.market.*;
 
 
@@ -18,6 +19,8 @@ public class PointSalad{
     int currentPlayer;
     boolean keepPlaying;
     Player activePlayer;
+    RefileMarket refiller;
+    Player thisPlayer;
 
 	
 
@@ -31,46 +34,17 @@ public class PointSalad{
         
     
 
-    private int largestPile() {
-        System.out.println("Finding largest pile");
-        int largest = 0;
-        // Assuming `piles.getPiles()` returns a list or collection of piles
-        for (int i = 0; i < piles.getPiles().size(); i++) {
-            if (piles.getPile(i).getSize() > piles.getPile(largest).getSize()) {
-                largest = i;
-            }
-        }
-        return largest;
-    }
     
-    private void refillMarket() {
-        int largestPileIndex = largestPile(); // Get the largest pile index
-    
-        // Assuming market and piles have the same number of piles
-        for (int i = 0; i < market.getPiles().size(); i++) {
-            // Go through each pile in the market
-            for (int j = 0; j < market.getPile(i).getSize(); j++) {
-                // If the current card in the market is null or the corresponding pile is empty
-                if (market.getPile(i).getCard(j) == null) {
-                    // Check if the pile at index i has cards to give
-                    if (!piles.getPile(i).isEmpty()) {
-                        // Transfer a card from pile i to the market
-                        market.addCardToMarket(piles.getPile(i).toMarket(), i);
-                    } else {
-                        // If pile i is empty, take a card from the largest pile
-                        if (!piles.getPile(largestPileIndex).isEmpty()) {
-                            market.addCardToMarket(piles.getPile(largestPileIndex).buyLastCard(), i);
-                        }
-                    }
-                }
-            }
-        }
-    }
     
 
     private void sendToAllPlayers(String message) {
         for (Player player : this.players) {
-            player.sendMessage(message);
+            if(!player.isBot()){
+                player.sendMessage(message);
+            }else{
+                System.out.println(message);
+            }
+            
         }
     }
 
@@ -82,8 +56,11 @@ public class PointSalad{
 		this.market = new MarketPile(piles.getPiles().size());
         this.marketPrinter = new MarketPrinter(this.market);
         
-        refillMarket();
+        this.refiller = new RefileMarket(this.market, this.piles); 
+        System.out.println(this.players.get(0).getPlayerID());
+        System.out.println(this.players.get(1).getPlayerID());
 
+        refiller.run();
 		
         sendToAllPlayers("Welcome to Point Salad!");
         sendToAllPlayers("There are " + players.size() + " players.");
@@ -99,7 +76,10 @@ public class PointSalad{
             
             System.out.println("Current player: " + currentPlayer);
 			Player thisPlayer = players.get(currentPlayer);
+            this.thisPlayer = thisPlayer;
 			boolean allPilesEmpty = true;
+            System.out.println("Player: " + this.thisPlayer.getPlayerID());
+            this.thisPlayer.sendMessage("It's your turn! Your hand is:\n");
             for(Pile p : piles.getPiles()) {
                 if(!p.isEmpty()) {  // If any pile is not empty
                     allPilesEmpty = false;  // Set flag to false
@@ -111,7 +91,7 @@ public class PointSalad{
                 sendToAllPlayers("All piles are empty. The game has ended!");
                 break;
             }
-			if(!thisPlayer.isBot()) {
+			if(!this.thisPlayer.isBot()) {
 				thisPlayer.sendMessage("\n\n****************************************************************\nIt's your turn! Your hand is:\n");
 				thisPlayer.sendMessage(this.playerHand.displayHand(thisPlayer.getPlayerID()));
 				thisPlayer.sendMessage("\nThe piles are: ");
@@ -130,7 +110,7 @@ public class PointSalad{
 							continue;
 						} else {
 							this.playerHand.getPile(thisPlayer.getPlayerID()).addCard(piles.getPile(pileIndex).buyCard(0));
-							thisPlayer.sendMessage("\nYou took a card from pile " + (pileIndex) + " and added it to your hand.\n");
+							this.thisPlayer.sendMessage("\nYou took a card from pile " + (pileIndex) + " and added it to your hand.\n");
 							validChoice = true;
 						}
 					} else {
@@ -142,14 +122,14 @@ public class PointSalad{
 							
 							// Validate input character
 							if (currentChar < 'A' || currentChar > 'F') {
-								thisPlayer.sendMessage("\nInvalid choice. Please choose up to two veggie cards from the market.\n");
+								this.thisPlayer.sendMessage("\nInvalid choice. Please choose up to two veggie cards from the market.\n");
 								validChoice = false;
 								break;
 							}
 
 							// Only allow two selections
 							if (takenVeggies >= 2) {
-								thisPlayer.sendMessage("\nYou can only select up to two veggie cards.\n");
+								this.thisPlayer.sendMessage("\nYou can only select up to two veggie cards.\n");
 								validChoice = false;
 								break;
 							}
@@ -174,14 +154,14 @@ public class PointSalad{
 
 							// Check if the selected pile has cards available
 							if (pileIndex != -1 && market.getPile(pileIndex).getCard(takenVeggies) == null) {
-								thisPlayer.sendMessage("\nThis veggie is empty. Please choose another pile.\n");
+								this.thisPlayer.sendMessage("\nThis veggie is empty. Please choose another pile.\n");
 								validChoice = false;
 								break;
 							}
 
 							// Handle adding the veggie card to the player's hand
 							if (takenVeggies < 2) {
-                                playerHand.getPile(thisPlayer.getPlayerID()).addCard(market.buyCard(pileIndex, veggieIndex));
+                                playerHand.getPile(this.thisPlayer.getPlayerID()).addCard(market.buyCard(pileIndex, veggieIndex));
                                 takenVeggies++;
 								validChoice = true;
 								// Uncomment if needed for logging
@@ -194,7 +174,7 @@ public class PointSalad{
 							thisPlayer.sendMessage("\nYou have successfully taken two veggie cards.\n");
                             
 						}
-                        refillMarket();
+                        refiller.run();
 
                     }
 
@@ -216,14 +196,20 @@ public class PointSalad{
                     System.out.println("Choice: " + choice);
 					if(choice.matches("\\d")) {
 						int cardIndex = Integer.parseInt(choice);
-						this.playerHand.getPile(thisPlayer.getPlayerID()).getCard(cardIndex).flipSide();
+						this.playerHand.getPile(this.thisPlayer.getPlayerID()).getCard(cardIndex).flipSide();
                         System.out.println("Card flipped");  
 					}
 				}
 				thisPlayer.sendMessage("\nYour turn is completed\n****************************************************************\n\n");
-				sendToAllPlayers("Player " + thisPlayer.getPlayerID() + "'s hand is now: \n"+this.playerHand.displayHand(thisPlayer.getPlayerID())+"\n");	
 
-			}
+			}else if(this.thisPlayer.isBot()) {
+                BotLogicSalad bot = new BotLogicSalad(this.piles, this.market, this.playerHand, this.thisPlayer, this.players);
+                bot.run();
+                refiller.run();
+            }   
+
+            sendToAllPlayers("Player " + this.thisPlayer.getPlayerID() + "'s hand is now: \n"+this.playerHand.displayHand(thisPlayer.getPlayerID())+"\n");	
+
 			
 			if(currentPlayer == players.size()-1) {
 				currentPlayer = 0;

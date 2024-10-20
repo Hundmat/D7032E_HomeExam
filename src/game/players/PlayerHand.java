@@ -48,7 +48,7 @@ public class PlayerHand extends PileHandler {
 		return handString;
     }
 
-    public int countTotalofOneTypeCard(int playerID, Enum type) {
+    public int countTotalofOneTypeCard(int playerID, Enum<?> type) {
 		int count = 0;
         Pile activeHand = playerHands.get(playerID);
         for (int i = 0; i < activeHand.getSize(); i++) {

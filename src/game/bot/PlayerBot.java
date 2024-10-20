@@ -1,8 +1,10 @@
 
-package game.players;
+package game.bot;
 
 import java.util.ArrayList;
 import game.piles.Card;
+import game.players.Player;
+
 import java.net.Socket;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -10,9 +12,7 @@ import java.io.ObjectOutputStream;
 
 public class PlayerBot extends Player {
     public ArrayList<Card> hand;
-    private String nextChoise = null;
-    private String message;
-
+   
     public PlayerBot(int playerID, Socket connection, ObjectInputStream inFromClient, ObjectOutputStream outToClient, boolean online){
         super(playerID, connection, inFromClient, outToClient,online);
         
