@@ -6,7 +6,7 @@ import game.bot.PlayerBot;
 import game.players.HumanPlayer;
 import network.Client;
 
-public class MainSalad {
+public class MainSalad extends Main {
     private Server server;
     private int numberPlayers = 0;
     private int numberOfBots = 0;
@@ -20,7 +20,7 @@ public class MainSalad {
                 System.out.println("Please enter the number of players (1-6): ");
                 numberPlayers = in.nextInt();
     
-                System.out.println("Please enter the number of bots (0-5): ");
+                System.out.println("Please enter the number of bots (0-6): ");
                 numberOfBots = in.nextInt();
     
                 
@@ -55,7 +55,8 @@ public class MainSalad {
             e.printStackTrace();
         }
 
-        game.PointSalad game = new game.PointSalad(players);
+        game.gameLogic.PointSalad game = new game.gameLogic.PointSalad(players);
+        game.run();
     }
 
     private void clientStart(String host) {

@@ -1,4 +1,4 @@
-package game;
+package game.gameLogic;
 
 import game.bot.BotLogicSalad;
 import game.market.*;
@@ -10,8 +10,8 @@ import game.piles.*;
 import game.score.*;
 
 
-public class PointSalad{
-    MarketPrinter marketPrinter;
+public class PointSalad extends Game{
+    MarketPrinterSalad marketPrinter;
     SetPileSalad piles;
     PlayerHand playerHand;
     ArrayList<Player> players;
@@ -24,28 +24,30 @@ public class PointSalad{
 	SendToAllPlayers sender;
 
     public PointSalad(ArrayList<Player> players) {
-        System.out.println(players);
+        super(players);
+		
         this.players = players;
         this.piles = new SetPileSalad(players.size());
         this.playerHand = new PlayerHand(players.size());
 		this.market = new MarketPile(piles.getPiles().size());
-        this.marketPrinter = new MarketPrinter(this.market);
+        this.marketPrinter = new MarketPrinterSalad(this.market);
 		this.sender = new SendToAllPlayers(players);
         this.refiller = new RefileMarketSalad(this.market, this.piles); 
 		
         sender.sendToAllPlayers("Welcome to Point Salad!");
         sender.sendToAllPlayers("There are " + players.size() + " players.");
         
-		run();
+		
 
-        calculateScorePrint();   
+         
     }
 
 
-	private void run(){
+	public void run(){
 		GameLoopSalad game = new GameLoopSalad(this.players,this.piles,this.playerHand,this.market,this.marketPrinter,this.refiller);
 
 		game.runLoop();	
+		calculateScorePrint();  
 	}
 
 	private void calculateScorePrint(){

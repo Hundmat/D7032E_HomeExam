@@ -13,6 +13,7 @@ public class SetPileSalad extends PileHandler {
     private ArrayList<Pile> piles = new ArrayList<>();
 
     public SetPileSalad(int nrPlayers) {
+        super(nrPlayers);
         Pile deckPepper = new Pile();
         Pile deckLettuce = new Pile();
         Pile deckCarrot = new Pile();

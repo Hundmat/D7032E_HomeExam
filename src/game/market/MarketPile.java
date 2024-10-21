@@ -10,6 +10,7 @@ public class MarketPile extends PileHandler {
     private ArrayList<Pile> marketPile = new ArrayList<>();
 
     public MarketPile(int piles) {
+        super(piles);
         for (int i = 0; i < piles; i++) {
             this.marketPile.add(new Pile());
         }

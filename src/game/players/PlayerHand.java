@@ -12,6 +12,7 @@ import game.piles.Pile;
 public class PlayerHand extends PileHandler {
     private ArrayList<Pile> playerHands = new ArrayList<>();
     public PlayerHand(int playerSize) {
+        super(playerSize);
         for (int i = 0; i < playerSize; i++) {
             playerHands.add(new Pile());
         }

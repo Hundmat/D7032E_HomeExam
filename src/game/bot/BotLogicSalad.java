@@ -16,9 +16,7 @@ public class BotLogicSalad extends BotLogic {
 
     public BotLogicSalad(SetPileSalad piles, MarketPile market, PlayerHand playerHand, Player thisPlayer, ArrayList<Player> players, RefileMarketSalad refiller) {
         super(piles, market, playerHand, thisPlayer, players,refiller);
-        this.market = market;
-        this.playerHand = playerHand;
-        this.refiller=refiller;
+        
         
     }
 
@@ -68,6 +66,7 @@ public class BotLogicSalad extends BotLogic {
             // TODO: Check what Veggies are available and run calculateScore to see which veggies are best to pick
             int cardsPicked = 0;
             for(int i = 0; i < market.getPiles().size(); i++) {
+                
                 if(market.getCardFromMarket(i,0) != null && cardsPicked < 2) {
                     System.out.println("Buying point card: "+thisPlayer.getPlayerID());
 

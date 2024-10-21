@@ -1,4 +1,5 @@
 import game.bot.PlayerBot;
+import game.gameLogic.Game;
 import game.players.HumanPlayer;
 import game.players.Player;
 import network.IClient;
@@ -47,7 +48,7 @@ public abstract class Main {
             e.printStackTrace();
         }
 
-        game.PointSalad game = new game.PointSalad(players);
+        //Start game instant
     }
 
     private void clientStart(String host) {

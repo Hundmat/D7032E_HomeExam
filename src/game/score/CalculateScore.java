@@ -6,10 +6,10 @@ import game.players.PlayerHand; // Add this import statement
 import java.util.ArrayList;
 import game.players.Player;
 
-public class CalculateScore {
+public class CalculateScore extends AbstractCalculateScore{
     int score;
     public CalculateScore(PlayerHand hand, int playerID, ArrayList<Player> players) {
-        
+        super(hand, playerID, players);
         int totalScore = 0;
         Player thisPlayer = players.get(playerID);
         for (Card criteriaCard : hand.getPile(thisPlayer.getPlayerID()).getAll()) {
