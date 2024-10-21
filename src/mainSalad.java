@@ -15,21 +15,30 @@ public class MainSalad {
     // Method to start the server
     private void serverStart() {
         Scanner in = new Scanner(System.in);
- 
-        try {
-            System.out.println("Please enter the number of players (1-6): ");
-            numberPlayers = in.nextInt();
+        while (true){
+            try {
+                System.out.println("Please enter the number of players (1-6): ");
+                numberPlayers = in.nextInt();
+    
+                System.out.println("Please enter the number of bots (0-5): ");
+                numberOfBots = in.nextInt();
+    
+                
+            } catch (Exception e) {
+                e.printStackTrace();
+            } 
 
-            System.out.println("Please enter the number of bots (0-5): ");
-            numberOfBots = in.nextInt();
+            if(numberOfBots+numberPlayers<2){
+                System.out.println("You need to be two players atleast to play");
+            }else if(numberOfBots+numberPlayers>6){
+                System.out.println("You need to be less than six players to play");
+            }else{
+                in.close();
+                break;
+            }
 
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            // Close the scanner to avoid resource leaks
-            in.close();
         }
+        
         for (int i = 0; i < numberOfBots; i++) {
             players.add(new PlayerBot(i,null, null, null,false)); //add this instance as a player
         }

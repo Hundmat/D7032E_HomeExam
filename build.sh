@@ -11,7 +11,7 @@ fi
 SRC_DIR="src"
 BUILD_DIR="build"
 LIB_DIR="lib"
-MAIN_CLASS="mainSalad"
+MAIN_CLASS="MainSalad"
 JSON_JAR="lib/json.jar"
 SERVER_IP="127.0.0.1"  # Hardcoded IP address for the client to connect to
 

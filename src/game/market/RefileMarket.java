@@ -2,10 +2,11 @@ package game.market;
 
 import game.piles.PileHandler;
 
-abstract class RefileMarket {
+public abstract class RefileMarket {
 
     PileHandler market;
     PileHandler piles;
+    private int pilesEmpty = 100;
     public RefileMarket(PileHandler market, PileHandler piles){
         this.market = market;
         this.piles = piles;
@@ -18,4 +19,7 @@ abstract class RefileMarket {
         return 0;
     };
     
+    public int PilesAreEmpty(){
+        return this.pilesEmpty;
+    }
 }
