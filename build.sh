@@ -61,7 +61,9 @@ if [ $? -eq 0 ]; then
             java -cp "$FULL_CP" "$MAIN_CLASS" server  # Pass 'server' as argument
             break
         elif [ "$ROLE" = "client" ]; then
-            echo "Connecting to server at $SERVER_IP..."
+            echo "Connecting to server at"
+            echo "Enter the server IP address:"
+            read SERVER_IP
             java -cp "$FULL_CP" "$MAIN_CLASS" "$SERVER_IP"  # Pass server IP as argument
             break
         else

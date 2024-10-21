@@ -13,9 +13,16 @@ public class MarketPrinterSalad extends MarketPrinter {
         
     }
 
+    /**
+     * Generates a string representation of the market, including point cards and veggie cards.
+     *
+     * @param piles An ArrayList of Pile objects representing the point card piles.
+     * @return A formatted string representing the current state of the market.
+     *
+     
+     */
     public String printMarket( ArrayList<Pile> piles) {
-        // Print debug information about marketPile size
-    
+        
         StringBuilder pileString = new StringBuilder("Point Cards:\t");
     
         // Iterate over the piles to print point cards

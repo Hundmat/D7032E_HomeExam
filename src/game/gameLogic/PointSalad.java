@@ -23,26 +23,29 @@ public class PointSalad extends Game{
     Player thisPlayer;
 	SendToAllPlayers sender;
 
-    public PointSalad(ArrayList<Player> players) {
-        super(players);
+	/**
+	 * Constructor for the PointSalad game.
+	 * 
+	 * @param players The list of players participating in the game.
+	 */
+	public PointSalad(ArrayList<Player> players) {
+		super(players);
 		
-        this.players = players;
-        this.piles = new SetPileSalad(players.size());
-        this.playerHand = new PlayerHand(players.size());
+		this.players = players;
+		this.piles = new SetPileSalad(players.size());
+		this.playerHand = new PlayerHand(players.size());
 		this.market = new MarketPile(piles.getPiles().size());
-        this.marketPrinter = new MarketPrinterSalad(this.market);
+		this.marketPrinter = new MarketPrinterSalad(this.market);
 		this.sender = new SendToAllPlayers(players);
-        this.refiller = new RefileMarketSalad(this.market, this.piles); 
+		this.refiller = new RefileMarketSalad(this.market, this.piles); 
 		
-        sender.sendToAllPlayers("Welcome to Point Salad!");
-        sender.sendToAllPlayers("There are " + players.size() + " players.");
-        
-		
+		sender.sendToAllPlayers("Welcome to Point Salad!");
+		sender.sendToAllPlayers("There are " + players.size() + " players.");
+	}
 
-         
-    }
-
-
+	/**
+	 * Runs the main game loop and calculates the final scores.
+	 */
 	public void run(){
 		GameLoopSalad game = new GameLoopSalad(this.players,this.piles,this.playerHand,this.market,this.marketPrinter,this.refiller);
 
@@ -50,6 +53,19 @@ public class PointSalad extends Game{
 		calculateScorePrint();  
 	}
 
+	/**
+	 * Calculates and prints the scores for all players, determines the winner, and sends the appropriate messages to each player.
+	 * 
+	 * This method performs the following steps:
+	 * 1. Sends a message to all players indicating that scores are being calculated.
+	 * 2. Iterates through each player to:
+	 *    - Display the player's hand.
+	 *    - Calculate the player's score using the CalculateScore class.
+	 *    - Update the player's score.
+	 *    - Send the player's score to all players.
+	 * 3. Determines the player with the highest score.
+	 * 4. Sends a congratulatory message to the winning player and informs other players of the winner.
+	 */
 	private void calculateScorePrint(){
 		sender.sendToAllPlayers(("\n-------------------------------------- CALCULATING SCORES --------------------------------------\n"));
 		for(Player player : players) {

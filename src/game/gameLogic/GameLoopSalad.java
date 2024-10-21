@@ -29,6 +29,14 @@ public class GameLoopSalad extends GameLoop{
     public GameLoopSalad( ArrayList<Player> players, SetPileSalad piles,PlayerHand playerHand,MarketPile market,MarketPrinterSalad marketPrinter,RefileMarketSalad refiller){
        
         super(players, piles, playerHand, market, marketPrinter, refiller);
+
+        this.players = players;
+        this.piles = piles;
+        this.playerHand = playerHand;
+        this.market = market;
+        this.marketPrinter = marketPrinter;
+        this.refiller = refiller;
+        
         this.currentPlayer = (int) (Math.random() * (players.size()));
         
         this.sender = new SendToAllPlayers(players);
@@ -53,6 +61,7 @@ public class GameLoopSalad extends GameLoop{
 			if(!this.thisPlayer.isBot()) {
 				playerAction();
 			}else if(this.thisPlayer.isBot()) {
+                System.out.println("Bot is playing");
                 BotLogicSalad bot = new BotLogicSalad(this.piles, this.market, this.playerHand, this.thisPlayer, this.players,this.refiller);
                 bot.run();
                 refiller.run();

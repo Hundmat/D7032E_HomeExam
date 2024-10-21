@@ -70,7 +70,7 @@ public abstract class Main {
         if (args.length > 0 && args[0].equals("server")) { // Check if argument is 'server'
             instance.serverStart(); // Call the server start method
         } else {
-            instance.clientStart("127.0.0.1"); // Call the client start method
+            instance.clientStart(args[0]); // Call the client start method
         }
     }
 }

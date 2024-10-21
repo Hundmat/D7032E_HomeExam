@@ -9,22 +9,38 @@ import game.players.Player;
 import java.util.ArrayList;
 import game.market.RefileMarketSalad;
 
+/**
+ * The BotLogicSalad class extends the BotLogic class and implements the logic for a bot
+ * in the Salad game. It interacts with the market, player hands, and refills the market 
+ * when necessary.
+ */
 public class BotLogicSalad extends BotLogic {
     MarketPile market;
     PlayerHand playerHand;
     RefileMarketSalad refiller;
 
+    /**
+     * Constructs a new BotLogicSalad instance.
+     *
+     * @param piles       The SetPileSalad object representing the piles of cards.
+     * @param market      The MarketPile object representing the market of cards.
+     * @param playerHand  The PlayerHand object representing the player's hand.
+     * @param thisPlayer  The Player object representing the current player.
+     * @param players     The list of all players in the game.
+     * @param refiller    The RefileMarketSalad object responsible for refilling the market.
+     */
     public BotLogicSalad(SetPileSalad piles, MarketPile market, PlayerHand playerHand, Player thisPlayer, ArrayList<Player> players, RefileMarketSalad refiller) {
-        super(piles, market, playerHand, thisPlayer, players,refiller);
-        
-        
+        super(piles, market, playerHand, thisPlayer, players, refiller);
+        this.market = market;
+        this.playerHand = playerHand;
+        this.refiller = refiller;
+        this.piles = piles;
+        this.thisPlayer = thisPlayer;
+        this.players = players;
     }
 
-    public void run(){
-        // The Bot will randomly decide to take either one point card or two veggie cards 
-        // For point card the Bot will always take the point card with the highest score
-        // If there are two point cards with the same score, the bot will take the first one
-        // For Veggie cards the Bot will pick the first one or two available veggies
+ 
+    public void run() {
         boolean emptyPiles = false;
         int choice = 0;
         // Random choice: 
@@ -111,8 +127,10 @@ public class BotLogicSalad extends BotLogic {
         this.output = "Bot " + thisPlayer.getPlayerID() + "'s hand is now: \n"+playerHand.displayHand(thisPlayer.getPlayerID())+"\n";
     }
 
+    
+
+    
     public String returnString() {
         return this.output;
     }
-    
 }

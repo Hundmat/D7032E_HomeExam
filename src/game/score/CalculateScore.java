@@ -8,6 +8,18 @@ import game.players.Player;
 
 public class CalculateScore extends AbstractCalculateScore{
     int score;
+    /**
+     * The CalculateScore class is responsible for calculating the total score of a player
+     * based on the criteria specified on the cards in their hand.
+     *
+     * @param hand The PlayerHand object representing the player's hand.
+     * @param playerID The ID of the player whose score is being calculated.
+     * @param players The list of all players in the game.
+     *
+     * The constructor initializes the calculation by iterating through the criteria cards
+     * in the player's hand and applying the scoring rules based on the criteria specified
+     * on each card. The total score is then stored in the score attribute.
+     */
     public CalculateScore(PlayerHand hand, int playerID, ArrayList<Player> players) {
         super(hand, playerID, players);
         int totalScore = 0;
@@ -127,9 +139,7 @@ public class CalculateScore extends AbstractCalculateScore{
                                 }
                             }
                             if (countSameKind > 1) {
-                                // System.out.print("ID5/ID11: "+ ((int)countVegetables(hand,
-                                // Card.Vegetable.valueOf(vegs[0].trim()))/countSameKind) *
-                                // Integer.parseInt(criteria.split("=")[1].trim()) + " ");
+                                
                                 CardSalad tmp = new CardSalad(CardSalad.Vegetable.PEPPER,criteria);
                                 Enum vegEnum = tmp.getCardType(vegs[0].trim());
                                 totalScore += ((int) hand.countTotalofOneTypeCard(thisPlayer.getPlayerID(),vegEnum)
@@ -147,8 +157,7 @@ public class CalculateScore extends AbstractCalculateScore{
                                         min = nrVeg[x];
                                     }
                                 }
-                                // System.out.print("ID6/ID7/ID12/ID13: "+min *
-                                // Integer.parseInt(criteria.split("=")[1].trim()) + " ");
+                             
                                 totalScore += min * Integer.parseInt(criteria.split("=")[1].trim());
                             }
                         } else if (parts[0].indexOf("=") >= 0) { // ID3
@@ -161,9 +170,7 @@ public class CalculateScore extends AbstractCalculateScore{
                         } else { // ID4, ID8, ID9, ID10, ID14, ID15, ID16, ID17
                             for (int i = 0; i < parts.length; i++) {
                                 String[] veg = parts[i].split("/");
-                                // System.out.print("ID4/ID8/ID9/ID10/ID14/ID15/ID16/ID17: " +
-                                // Integer.parseInt(veg[0].trim()) * countVegetables(hand,
-                                // Card.Vegetable.valueOf(veg[1].trim())) + " ");
+                                
                                 CardSalad tmp = new CardSalad(CardSalad.Vegetable.PEPPER,criteria);
                                 Enum vegEnum = tmp.getCardType(veg[1].trim());
                                 int veg1 = hand.countTotalofOneTypeCard(thisPlayer.getPlayerID(),vegEnum);

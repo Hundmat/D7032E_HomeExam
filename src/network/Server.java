@@ -13,6 +13,14 @@ public class Server implements IServer{
     private ArrayList<Player> players;
 
 
+    /**
+     * Runs the server to accept connections from players and bots.
+     *
+     * @param numberPlayers The number of human players to connect to the server.
+     * @param numberOfBots The number of bot players to include in the game.
+     * @param players The list of players (both human and bot) participating in the game.
+     * @throws Exception If an error occurs while running the server.
+     */
     public void runServer(int numberPlayers, int numberOfBots, ArrayList<Player> players ) throws Exception{
         ServerSocket aSocket = null;
         this.numberPlayers = numberPlayers;

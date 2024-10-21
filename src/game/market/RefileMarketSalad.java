@@ -6,6 +6,8 @@ public class RefileMarketSalad extends RefileMarket {
     private MarketPile market;
     private SetPileSalad piles;
     private int pilesEmpty = 100;
+
+   
     private int largestPile() {
         int largest = 0;
         // Assuming `piles.getPiles()` returns a list or collection of piles
@@ -19,12 +21,24 @@ public class RefileMarketSalad extends RefileMarket {
         return largest;
     }
     
+   
     public RefileMarketSalad(MarketPile market, SetPileSalad piles) {
         super(market, piles);
         this.market = market;
         this.piles = piles;
     }
 
+    /**
+     * Executes the process of refilling the market with cards from the piles.
+     * 
+     * The method performs the following steps:
+     * 1. Determines the index of the largest pile.
+     * 2. Checks if the largest pile is empty and sets the `pilesEmpty` flag accordingly.
+     * 3. Iterates through each pile in the market:
+     *    - For each card in the pile, checks if the card is null or the corresponding pile is empty.
+     *    - If the card is null, attempts to transfer a card from the corresponding pile to the market.
+     *    - If the corresponding pile is empty, attempts to transfer a card from the largest pile to the market.
+     */
     public void run() {
         int largestPileIndex = largestPile(); // Get the largest pile index
         if(this.market.getPile(largestPileIndex).getSize()==0){
