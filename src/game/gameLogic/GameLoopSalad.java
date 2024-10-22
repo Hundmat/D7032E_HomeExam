@@ -132,7 +132,7 @@ public class GameLoopSalad extends GameLoop{
         }
         while(!validChoice){
             // Check if the player has any criteria cards in their hand
-            pickCriteriaCard(criteriaCardInHand);
+            validChoice = pickCriteriaCard(criteriaCardInHand);
 
             
         }
