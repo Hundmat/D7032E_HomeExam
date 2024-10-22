@@ -12,7 +12,7 @@ import java.io.ObjectOutputStream;
 
 public class PlayerBot extends Player {
     public ArrayList<Card> hand;
-   
+    String lastMessage = "";
     public PlayerBot(int playerID, Socket connection, ObjectInputStream inFromClient, ObjectOutputStream outToClient, boolean online){
         super(playerID, connection, inFromClient, outToClient,online);
         
@@ -25,6 +25,11 @@ public class PlayerBot extends Player {
 
     public void addCardToHand(Card card) {
         hand.add(card);
+    }
+
+    public void sendMessage(Object message) {
+        System.out.println(message);
+        this.lastMessage = message.toString();
     }
 
     public ArrayList<Card> getHand() {
@@ -42,6 +47,8 @@ public class PlayerBot extends Player {
 		this.connection = connection;
 	}
   
-    
+    public String getLastMessage() {
+        return this.lastMessage;
+    }
     
 }

@@ -137,9 +137,7 @@ public class SetPileSalad extends PileHandler {
             pile3.addCard(deck.buyCard(0));
         }
         
-        System.out.println("Pile 1: " + pile1.getSize());
-        System.out.println("Pile 2: " + pile2.getSize());
-        System.out.println("Pile 3: " + pile3.getSize());
+       
         piles.add(pile1);
         piles.add(pile2);
         piles.add(pile3);

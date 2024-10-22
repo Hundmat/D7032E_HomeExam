@@ -17,6 +17,7 @@ public abstract class Card {
 
 
     public void flipSide() {
+    
         this.criteriaSideUp = !this.criteriaSideUp;
     }
 

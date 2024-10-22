@@ -53,8 +53,10 @@ public class PlayerHand extends PileHandler {
 		int count = 0;
         Pile activeHand = playerHands.get(playerID);
         for (int i = 0; i < activeHand.getSize(); i++) {
+            
             if (activeHand.getCard(i).getCardType() == type && !activeHand.getCard(i).isCriteriaSideUp()) {
                 count++;
+                
             }
 			
 		}
@@ -76,6 +78,8 @@ public class PlayerHand extends PileHandler {
     public void addCard(int playerID, Card card) {
         playerHands.get(playerID).addCard(card);
     }
+
+    
 
     public Pile getPile(int pileIndex) {
         return playerHands.get(pileIndex);

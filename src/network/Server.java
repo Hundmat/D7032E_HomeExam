@@ -34,15 +34,19 @@ public class Server implements IServer{
         
         for(int i=this.numberOfBots; i<this.numberPlayers+this.numberOfBots; i++) {
             System.out.println("Waiting for player " + i);
-            Socket connectionSocket = aSocket.accept();
-            ObjectInputStream inFromClient = new ObjectInputStream(connectionSocket.getInputStream());
-            ObjectOutputStream outToClient = new ObjectOutputStream(connectionSocket.getOutputStream());
-            
+            try {
+                Socket connectionSocket = aSocket.accept();
+                ObjectInputStream inFromClient = new ObjectInputStream(connectionSocket.getInputStream());
+                ObjectOutputStream outToClient = new ObjectOutputStream(connectionSocket.getOutputStream());
+                
+                this.players.get(i).update(inFromClient, outToClient, connectionSocket, true); //update the player
 
-            this.players.get(i).update(inFromClient, outToClient, connectionSocket, true); //update the player
-
-            System.out.println("Connected to player " + i);
-            outToClient.writeObject("You connected to the server as player " + i + "\n");
+                System.out.println("Connected to player " + i);
+                outToClient.writeObject("You connected to the server as player " + i + "\n");
+            } catch (Exception e) {
+                System.err.println("Connection lost with player " + i);
+                e.printStackTrace();
+            }
 
         }    
     }

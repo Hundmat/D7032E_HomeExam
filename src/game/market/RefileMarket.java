@@ -4,8 +4,8 @@ import game.piles.PileHandler;
 
 public abstract class RefileMarket {
 
-    PileHandler market;
-    PileHandler piles;
+    private PileHandler market;
+    private PileHandler piles;
     private int pilesEmpty = 100;
     public RefileMarket(PileHandler market, PileHandler piles){
         this.market = market;

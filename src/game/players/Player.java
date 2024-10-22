@@ -11,12 +11,13 @@ public abstract class Player {
 
     // Player attributes
     protected int playerID;
-    public boolean online;
+    protected boolean online;
     protected ArrayList<Card> hand = new ArrayList<>();
     protected Socket connection;
-    public ObjectInputStream inFromClient;
-    public ObjectOutputStream outToClient;
+    protected ObjectInputStream inFromClient;
+    protected ObjectOutputStream outToClient;
     protected int score = 0;
+    protected String lastMessage = "";
 
 
     // Constructor
@@ -31,6 +32,7 @@ public abstract class Player {
 		
 		if(online) {
             try {outToClient.writeObject(message);} catch (Exception e) {}
+            this.lastMessage = message.toString();
         }
 	}
 
@@ -44,9 +46,13 @@ public abstract class Player {
 
 	public String readMessage() {
         String word = ""; 
-			
+		
 		try{word = (String) inFromClient.readObject();} catch (Exception e){}
         return word;
+    }
+
+    public String getLastMessage() {
+        return this.lastMessage;
     }
 
     // Method to add a card to the player's hand

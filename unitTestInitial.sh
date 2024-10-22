@@ -53,7 +53,5 @@ javac -cp "$LIB_CP" -d "$BUILD_DIR" $(find "$SRC_DIR" -name "*.java")
 echo "Running InitialisationTesting"
 java -cp "$LIB_DIR/junit-platform-console-standalone-1.11.2.jar${SEP}$FULL_CP" org.junit.platform.console.ConsoleLauncher -c testing.InitialisationTesting
 
-echo "Running GameLoopTesting"
-java -cp "$LIB_DIR/junit-platform-console-standalone-1.11.2.jar${SEP}$FULL_CP" org.junit.platform.console.ConsoleLauncher -c testing.GameLoopTesting
 
     

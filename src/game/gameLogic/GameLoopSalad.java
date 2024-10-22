@@ -10,6 +10,7 @@ import game.players.Player;
 import game.players.PlayerHand;
 import game.piles.SetPileSalad;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class GameLoopSalad extends GameLoop{
@@ -119,71 +120,7 @@ public class GameLoopSalad extends GameLoop{
                 }
             }
             else {
-                // Handle vegetable card selections
-                int takenVeggies = 0;
-                validChoice = true;  // Assume valid unless input is invalid
-        
-                for (int charIndex = 0; charIndex < pileChoice.length(); charIndex++) {
-                    char currentChar = Character.toUpperCase(pileChoice.charAt(charIndex));
-                    
-                    // Validate if the character is between 'A' and 'F'
-                    if (currentChar < 'A' || currentChar > 'F') {
-                        thisPlayer.sendMessage("\nInvalid choice. Please choose up to two veggie cards from the market.\n");
-                        validChoice = false;
-                        break;
-                    }
-        
-                    // Only allow up to two veggie selections
-                    if (takenVeggies >= 2) {
-                        thisPlayer.sendMessage("\nYou can only select up to two veggie cards.\n");
-                        validChoice = false;
-                        break;
-                    }
-        
-                    int choiceIndex = currentChar - 'A';
-                    int pileIndex = -1;
-                    int veggieIndex = -1;
-        
-                    // Determine which pile and which veggie to select based on choiceIndex
-                    switch (choiceIndex) {
-                        case 0: case 3:
-                            pileIndex = 0; veggieIndex = (choiceIndex < 3) ? 0 : 1; break;
-                        case 1: case 4:
-                            pileIndex = 1; veggieIndex = (choiceIndex < 3) ? 0 : 1; break;
-                        case 2: case 5:
-                            pileIndex = 2; veggieIndex = (choiceIndex < 3) ? 0 : 1; break;
-                        default:
-                            thisPlayer.sendMessage("\nInvalid choice. Please choose up to two veggie cards from the market.\n");
-                            validChoice = false;
-                            break;
-                    }
-        
-                    // Check if the chosen veggie card is available
-                    if (pileIndex != -1 && market.getPile(pileIndex).getCard(veggieIndex) == null) {
-                        thisPlayer.sendMessage("\nThis veggie is empty. Please choose another pile.\n");
-                        validChoice = false;
-                        break;
-                    }
-        
-                    // If the input is valid, add the veggie card to the player's hand
-                    if (takenVeggies < 2 && validChoice) {
-                        playerHand.getPile(thisPlayer.getPlayerID()).addCard(market.buyCard(pileIndex, veggieIndex));
-                        takenVeggies++;
-                    }
-                }
-        
-                // If two valid veggie cards were taken
-                if (validChoice && takenVeggies > 0) {
-                    thisPlayer.sendMessage("\nYou have successfully taken " + takenVeggies + " veggie card(s).\n");
-                    validChoice = true;  // Valid choice, exit the loop
-                } else {
-                    validChoice = false;  // Invalid choice, prompt the user again
-                }
-            }
-        
-            // If choice was valid, refill the market
-            if (validChoice) {
-                refiller.run();
+                validChoice = pickVeg(pileChoice);
             }
         }
         
@@ -197,42 +134,9 @@ public class GameLoopSalad extends GameLoop{
         }
         while(!validChoice){
             // Check if the player has any criteria cards in their hand
+            pickCriteriaCard(criteriaCardInHand);
+
             
-
-            if (criteriaCardInHand) {
-                // Display the player's hand and prompt them for input
-                thisPlayer.sendMessage("\n" + this.playerHand.displayHand(thisPlayer.getPlayerID()) + 
-                                    "\nWould you like to turn a criteria card into a veggie card? (Syntax example: n or 2)");
-                String choice = thisPlayer.readMessage();
-                System.out.println("Choice: " + choice);
-                if( choice.matches("n")){
-                    thisPlayer.sendMessage("\nNo criteria card was rotated\n");
-                    validChoice=true;
-                    break;
-                }
-                // Check if the input is a number
-                if (choice.matches("\\d") ) {
-                    int cardIndex = Integer.parseInt(choice);
-                    int playerHandSize = this.playerHand.getPile(thisPlayer.getPlayerID()).getSize();
-
-                    // Check if the cardIndex is within the valid range
-                    if (cardIndex >= 0 && cardIndex < playerHandSize) {
-                        // Flip the card if the index is valid
-                        try {
-                            this.playerHand.getPile(this.thisPlayer.getPlayerID()).getCard(cardIndex).flipSide();
-                            validChoice=true;
-                            break;
-                        } catch (Exception e) {
-                            thisPlayer.sendMessage("\nInvalid card index. Please choose a valid card number.\n");
-                        }
-                    } else {
-                        // Inform the player if the index is invalid
-                        thisPlayer.sendMessage("\nInvalid card index. Please choose a valid card number.\n");
-                    }
-                } else {
-                    thisPlayer.sendMessage("\nInvalid input. Please enter a number.\n");
-                }
-            }
         }
 
         thisPlayer.sendMessage("\nYour turn is completed\n****************************************************************\n\n");
@@ -267,4 +171,119 @@ public class GameLoopSalad extends GameLoop{
         }
         return true;
     }
+
+    public boolean pickVeg(String pileChoice){
+        // Handle vegetable card selections
+        int takenVeggies = 0;
+        boolean validChoice = true;  // Assume valid unless input is invalid
+        ArrayList<Integer> veggieChoices = new ArrayList<>();
+        for (int charIndex = 0; charIndex < pileChoice.length(); charIndex++) {
+            char currentChar = Character.toUpperCase(pileChoice.charAt(charIndex));
+            
+            // Validate if the character is between 'A' and 'F'
+            if (currentChar < 'A' || currentChar > 'F') {
+                thisPlayer.sendMessage("\nInvalid choice. Please choose up to two veggie cards from the market.\n");
+                validChoice = false;
+                break;
+            }
+
+            // Only allow up to two veggie selections
+            if (takenVeggies >= 2) {
+                thisPlayer.sendMessage("\nYou can only select up to two veggie cards.\n");
+                validChoice = false;
+                break;
+            }
+
+            int choiceIndex = currentChar - 'A';
+            int pileIndex = -1;
+            int veggieIndex = -1;
+
+            // Determine which pile and which veggie to select based on choiceIndex
+            switch (choiceIndex) {
+                case 0: case 3:
+                    pileIndex = 0; veggieIndex = (choiceIndex < 3) ? 0 : 1; break;
+                case 1: case 4:
+                    pileIndex = 1; veggieIndex = (choiceIndex < 3) ? 0 : 1; break;
+                case 2: case 5:
+                    pileIndex = 2; veggieIndex = (choiceIndex < 3) ? 0 : 1; break;
+                default:
+                    thisPlayer.sendMessage("\nInvalid choice. Please choose up to two veggie cards from the market.\n");
+                    validChoice = false;
+                    break;
+            }
+
+            // Check if the chosen veggie card is available
+            if (pileIndex != -1 && market.getPile(pileIndex).getCard(veggieIndex) == null) {
+                thisPlayer.sendMessage("\nThis veggie is empty. Please choose another pile.\n");
+                validChoice = false;
+                break;
+            }
+            // If the input is valid, add the veggie card to the player's hand
+            if (takenVeggies < 2 && validChoice) {
+                veggieChoices.add(pileIndex);
+                veggieChoices.add(veggieIndex);
+                takenVeggies++;
+            }
+        }
+
+        if (takenVeggies > 0 && validChoice) {
+            for(int i = 0; i < veggieChoices.size(); i += 2){
+                this.playerHand.getPile(thisPlayer.getPlayerID()).addCard(market.buyCard(veggieChoices.get(i), veggieChoices.get(i+1)));
+            }
+        }
+
+        // If two valid veggie cards were taken
+        if (validChoice && takenVeggies > 0) {
+            thisPlayer.sendMessage("\nYou have successfully taken " + takenVeggies + " veggie card(s).\n");
+            validChoice = true;  // Valid choice, exit the loop
+        } else {
+            validChoice = false;  // Invalid choice, prompt the user again
+        }
+        // If choice was valid, refill the market
+        if (validChoice) {
+            refiller.run();
+        }
+
+        return validChoice;
+    }
+
+    public boolean pickCriteriaCard(boolean criteriaCardInHand){
+        if (criteriaCardInHand) {
+            // Display the player's hand and prompt them for input
+            thisPlayer.sendMessage("\n" + this.playerHand.displayHand(thisPlayer.getPlayerID()) + 
+                                "\nWould you like to turn a criteria card into a veggie card? (Syntax example: n or 2)");
+            String choice = thisPlayer.readMessage();
+            System.out.println("Choice: " + choice);
+            if( choice.matches("n")){
+                thisPlayer.sendMessage("\nNo criteria card was rotated\n");
+                return true;
+                
+            }
+            // Check if the input is a number
+            if (choice.matches("\\d") ) {
+                int cardIndex = Integer.parseInt(choice);
+                int playerHandSize = this.playerHand.getPile(thisPlayer.getPlayerID()).getSize();
+
+                // Check if the cardIndex is within the valid range
+                if (cardIndex >= 0 && cardIndex < playerHandSize) {
+                    // Flip the card if the index is valid
+                    try {
+                        this.playerHand.getPile(this.thisPlayer.getPlayerID()).getCard(cardIndex).flipSide();
+                        return true;
+                        
+                    } catch (Exception e) {
+                        thisPlayer.sendMessage("\nInvalid card index. Please choose a valid card number.\n");
+                    }
+                } else {
+                    // Inform the player if the index is invalid
+                    thisPlayer.sendMessage("\nInvalid card index. Please choose a valid card number.\n");
+                }
+            } else {
+                thisPlayer.sendMessage("\nInvalid input. Please enter a number.\n");
+            }
+        }
+        return false;
+    }
+        
 }
+

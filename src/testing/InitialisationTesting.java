@@ -9,20 +9,72 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.ParseException;
+import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
+import game.bot.PlayerBot;
+import game.gameLogic.PointSalad;
 import game.market.MarketPile;
 import game.market.RefileMarketSalad;
 import game.piles.Pile;
 import game.piles.SetPileSalad;
+import game.players.HumanPlayer;
+import game.players.Player;
 
 
 public class InitialisationTesting {
 
-    @Test
+    @Test // Test less than two players : rule 1
+    public void testLessThanTwoPlayers() {
+
+        ArrayList<Player> players = new ArrayList<>();
+        
+        players.add(new HumanPlayer(0,null, null, null,false));
+        
+        //one player
+        assertThrows(IllegalArgumentException.class, () -> {
+            new PointSalad(players);
+        }, "There must be at least 2 players to play Point Salad.");
+
+        //no player
+        assertThrows(NullPointerException.class, () -> {
+            new PointSalad(null);
+        }, "There must be at least 2 players to play Point Salad.");
+    }
+
+    @Test // Test More than 6 players : rule 1
+    public void testMoreThanSixPlayers() {
+
+        ArrayList<Player> players = new ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            players.add(new HumanPlayer(i,null, null, null,false));
+        }
+        assertThrows(IllegalArgumentException.class, () -> {
+            new PointSalad(players);
+        }, "There must be at least 2 players to play Point Salad.");
+
+
+        for (int i = 0; i < 20; i++) {
+            players.add(new HumanPlayer(i,null, null, null,false));
+        }
+        assertThrows(IllegalArgumentException.class, () -> {
+            new PointSalad(players);
+        }, "There must be at least 2 players to play Point Salad.");
+        
+        
+        for (int i = 0; i < 30; i++) {
+            players.add(new HumanPlayer(i,null, null, null,false));
+        }
+        assertThrows(IllegalArgumentException.class, () -> {
+            new PointSalad(players);
+        }, "There must be at least 2 players to play Point Salad.");
+        
+    }
+
+    @Test // Test if the deck is composed of the 108 numbers of cards : rule 2
     public void testDeckComposition() throws IOException, ParseException {
         String jsonString = new String(Files.readAllBytes(Paths.get("POINTSALADMANIFEST.JSON")));
         JSONObject jsonObject = new JSONObject(jsonString);
@@ -73,7 +125,7 @@ public class InitialisationTesting {
         assertEquals(18, tomatoCount, "There should be 18 Tomato cards.");
     }
 
-    @Test
+    @Test// Test if the deck is composed of the correct number of cards for 2 palyers : rule 3
     public void testDeckForTwoPlayers() {
         SetPileSalad setPileSalad = new SetPileSalad(2);
         int combinedDeck = 0;
@@ -84,7 +136,7 @@ public class InitialisationTesting {
         assertEquals(36, combinedDeck, "The deck should consist of 36 cards for 2 players.");
     }
 
-    @Test
+    @Test// Test if the deck is composed of the correct number of cards for 3 palyers : rule 3
     public void testDeckForThreePlayers() {
         SetPileSalad setPileSalad = new SetPileSalad(3);
         int combinedDeck = 0;
@@ -94,7 +146,7 @@ public class InitialisationTesting {
         assertEquals(54, combinedDeck, "The deck should consist of 54 cards for 3 players.");
     }
 
-    @Test
+    @Test// Test if the deck is composed of the correct number of cards for 4 palyers : rule 3
     public void testDeckForFourPlayers() {
         SetPileSalad setPileSalad = new SetPileSalad(4);
         int combinedDeck = 0;
@@ -104,7 +156,7 @@ public class InitialisationTesting {
         assertEquals(72, combinedDeck, "The deck should consist of 72 cards for 4 players.");
     }
 
-    @Test
+    @Test// Test if the deck is composed of the correct number of cards for 5 palyers : rule 3
     public void testDeckForFivePlayers() {
         SetPileSalad setPileSalad = new SetPileSalad(5);
         int combinedDeck = 0;
@@ -114,7 +166,7 @@ public class InitialisationTesting {
         assertEquals(90, combinedDeck, "The deck should consist of 90 cards for 5 players.");
     }
 
-    @Test
+    @Test// Test if the deck is composed of the correct number of cards for 6 palyers : rule 3
     public void testDeckForSixPlayers() {
         SetPileSalad setPileSalad = new SetPileSalad(6);
         int combinedDeck = 0;
@@ -131,7 +183,7 @@ public class InitialisationTesting {
         }, "An exception should be thrown for invalid number of players.");
     }
     
-    @Test
+    @Test// Test if the deck is shuffled and the draw piles are created roughly the same size : rule 4
     public void testShuffleAndCreateDrawPiles() {
         SetPileSalad setPileSalad = new SetPileSalad(4); // Using 4 players as an example
         Pile pile1 = setPileSalad.getPile(0);
@@ -147,7 +199,7 @@ public class InitialisationTesting {
         assertTrue(maxPileSize - minPileSize <= 1, "The piles should be roughly equal in size.");
     }
 
-    @Test
+    @Test// Test if the market is created from the piles : rule 5
     public void testFlipOverTwoCardsFromEachPile() {
         SetPileSalad setPileSalad = new SetPileSalad(2); // Using 4 players as an example
         MarketPile marketPile = new MarketPile(setPileSalad.getPiles().size());

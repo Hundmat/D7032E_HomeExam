@@ -70,14 +70,23 @@ public class CalculateScore extends AbstractCalculateScore{
                                 int atLeastPerVegType = Integer
                                         .parseInt(expr[1].substring(expr[1].indexOf(">=") + 2).trim());
                                 int totalType = 0;
+                                ArrayList<Enum<?>> counted=  new ArrayList<>();
                                 for (Card vegetable : hand.getPile(thisPlayer.getPlayerID()).getAll()) {
-                                    int countVeg = hand.countTotalofOneTypeCard(thisPlayer.getPlayerID(),vegetable.getCardType());
-                                    if (countVeg >= atLeastPerVegType) {
-                                        totalType++;
+                                    
+                                    if(!counted.contains(vegetable.getCardType())){
+                                        int countVeg = hand.countTotalofOneTypeCard(thisPlayer.getPlayerID(),vegetable.getCardType());
+                                        System.out.println("Counted: "+countVeg);
+                                        if (countVeg >= atLeastPerVegType) {
+                                            counted.add(vegetable.getCardType());
+                                            totalType++;
+                                        }
+                                        System.out.println("TotalType: "+totalType);
+                                    }else{
+                                        continue;
                                     }
+                                    
                                 }
-                                // int aScore = totalType * addScore;
-                                // System.out.print("ID18 TYPE >=: "+aScore + " ");
+                                
                                 totalScore += totalType * addScore;
                             }
                         }
@@ -90,7 +99,6 @@ public class CalculateScore extends AbstractCalculateScore{
                                     break;
                                 }
                             }
-                            // System.out.print("ID18 SET: "+addScore + " ");
                             totalScore += addScore;
                         }
                     }
@@ -142,8 +150,10 @@ public class CalculateScore extends AbstractCalculateScore{
                                 
                                 CardSalad tmp = new CardSalad(CardSalad.Vegetable.PEPPER,criteria);
                                 Enum vegEnum = tmp.getCardType(vegs[0].trim());
+                                
                                 totalScore += ((int) hand.countTotalofOneTypeCard(thisPlayer.getPlayerID(),vegEnum)
                                         / countSameKind) * Integer.parseInt(criteria.split("=")[1].trim());
+                                
                             } else {
                                 for (int i = 0; i < vegs.length; i++) {
                                     CardSalad tmp = new CardSalad(CardSalad.Vegetable.PEPPER,criteria);
@@ -182,7 +192,7 @@ public class CalculateScore extends AbstractCalculateScore{
                     }
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                continue;
             }
         }
         this.score = totalScore;

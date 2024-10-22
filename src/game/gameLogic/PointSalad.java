@@ -1,6 +1,5 @@
 package game.gameLogic;
 
-import game.bot.BotLogicSalad;
 import game.market.*;
 
 
@@ -11,17 +10,13 @@ import game.score.*;
 
 
 public class PointSalad extends Game{
-    MarketPrinterSalad marketPrinter;
-    SetPileSalad piles;
-    PlayerHand playerHand;
-    ArrayList<Player> players;
-    MarketPile market;
-    int currentPlayer;
-    boolean keepPlaying;
-    Player activePlayer;
-    RefileMarketSalad refiller;
-    Player thisPlayer;
-	SendToAllPlayers sender;
+    private MarketPrinterSalad marketPrinter;
+    private SetPileSalad piles;
+    private PlayerHand playerHand;
+    private ArrayList<Player> players;
+    private MarketPile market;
+    private RefileMarketSalad refiller;
+	private SendToAllPlayers sender;
 
 	/**
 	 * Constructor for the PointSalad game.
@@ -30,6 +25,13 @@ public class PointSalad extends Game{
 	 */
 	public PointSalad(ArrayList<Player> players) {
 		super(players);
+		if(players == null){
+			throw new NullPointerException("There must be at least 2 players to play Point Salad.");
+		}
+		if(players.size() < 2 || players.size() > 6) {
+			throw new IllegalArgumentException("Wrong amount of players to play Point Salad.");
+		}
+		
 		
 		this.players = players;
 		this.piles = new SetPileSalad(players.size());
@@ -55,16 +57,6 @@ public class PointSalad extends Game{
 
 	/**
 	 * Calculates and prints the scores for all players, determines the winner, and sends the appropriate messages to each player.
-	 * 
-	 * This method performs the following steps:
-	 * 1. Sends a message to all players indicating that scores are being calculated.
-	 * 2. Iterates through each player to:
-	 *    - Display the player's hand.
-	 *    - Calculate the player's score using the CalculateScore class.
-	 *    - Update the player's score.
-	 *    - Send the player's score to all players.
-	 * 3. Determines the player with the highest score.
-	 * 4. Sends a congratulatory message to the winning player and informs other players of the winner.
 	 */
 	private void calculateScorePrint(){
 		sender.sendToAllPlayers(("\n-------------------------------------- CALCULATING SCORES --------------------------------------\n"));

@@ -9,11 +9,7 @@ import game.players.Player;
 import java.util.ArrayList;
 import game.market.RefileMarketSalad;
 
-/**
- * The BotLogicSalad class extends the BotLogic class and implements the logic for a bot
- * in the Salad game. It interacts with the market, player hands, and refills the market 
- * when necessary.
- */
+
 public class BotLogicSalad extends BotLogic {
     MarketPile market;
     PlayerHand playerHand;

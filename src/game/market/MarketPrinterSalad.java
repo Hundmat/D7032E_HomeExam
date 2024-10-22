@@ -25,7 +25,6 @@ public class MarketPrinterSalad extends MarketPrinter {
         
         StringBuilder pileString = new StringBuilder("Point Cards:\t");
     
-        // Iterate over the piles to print point cards
         for (int p = 0; p < piles.size(); p++) {
             if (piles.get(p).isEmpty()) {
                 pileString.append("[").append(p).append("]").append(String.format("%-43s", "Empty")).append("\t");
@@ -37,7 +36,6 @@ public class MarketPrinterSalad extends MarketPrinter {
         pileString.append("\nVeggie Cards:\t");
         char veggieCardIndex = 'A';
     
-        // Iterate over the marketPile for veggie cards (first row)
         for (int p = 0; p < marketPile.size(); p++) {
             if (this.marketPile.getPile(p).isEmpty()) {
                 pileString.append("[").append(veggieCardIndex).append("]").append(String.format("%-43s", "Empty")).append("\t");
@@ -49,7 +47,6 @@ public class MarketPrinterSalad extends MarketPrinter {
     
         pileString.append("\n\t\t");
     
-        // Iterate again for the second row of veggie cards, if applicable
         for (int p = 0; p < this.marketPile.size(); p++) {
             if (this.marketPile.getPile(p).isEmpty()) {
                 pileString.append("[").append(veggieCardIndex).append("]").append(String.format("%-43s", "Empty")).append("\t");

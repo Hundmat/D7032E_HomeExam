@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 
 public abstract class MarketPrinter {
-    PileHandler marketPile;
+    private PileHandler marketPile;
     public MarketPrinter(PileHandler marketPile) {
         this.marketPile = marketPile;
         

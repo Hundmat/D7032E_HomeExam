@@ -18,7 +18,11 @@ public class CardSalad extends Card {
     }
 
     public void flipSide() {
-        this.criteriaSideUp = !this.criteriaSideUp;
+        if(this.criteriaSideUp) {
+            this.criteriaSideUp = !this.criteriaSideUp;
+        }else {
+            throw new IllegalStateException("Cannot flip card from type side to criteria side");
+        }
     }
 
     @Override

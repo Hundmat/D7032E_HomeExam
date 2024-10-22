@@ -64,12 +64,10 @@ public class MarketPile extends PileHandler {
      * @return the card that was bought, or null if the pile is empty
      */
     public Card buyCard(int pile, int cardIndex) {
-        // Check if the pile has any cards
         if (this.marketPile.get(pile).isEmpty()) {
-            return null;  // Return null if the pile is empty
+            return null;  
         }
         Card returncard = this.marketPile.get(pile).getCard(cardIndex);
-        // Try to buy the card if the card index is valid
         this.marketPile.get(pile).set(cardIndex, null);
         return returncard;
     }

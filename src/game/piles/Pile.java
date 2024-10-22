@@ -8,7 +8,7 @@ import java.util.Collections;
  */
 public class Pile {
 
-    public ArrayList<Card> cards = new ArrayList<Card>();
+    private ArrayList<Card> cards = new ArrayList<Card>();
     
 
     public Pile() {

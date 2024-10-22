@@ -12,7 +12,7 @@ public class HumanPlayer extends Player{
 	
 
 	
-
+	String lastMessage = "";
 
 
 	public HumanPlayer(int playerID, ObjectInputStream inFromClient, ObjectOutputStream outToClient, Socket connection, boolean online) {
@@ -42,7 +42,7 @@ public class HumanPlayer extends Player{
 	public void sendMessage(Object message) {
 		
 		try {super.outToClient.writeObject(message);} catch (Exception e) {}
-        
+        this.lastMessage = message.toString();
 	}
 
    public void setScore(int score) {
@@ -60,6 +60,10 @@ public class HumanPlayer extends Player{
 
 		return word;
 	}
+
+	public String getLastMessage() {
+        return this.lastMessage;
+    }
 
 	public boolean isBot() {
 		return false;
