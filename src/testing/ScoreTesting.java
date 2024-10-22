@@ -103,6 +103,22 @@ public class ScoreTesting {
     }
 
     @Test
+    public void testCalculateScoreAddition3() {
+        // Setup player hand with criteria card
+        Card criteriaCard = new CardSalad(CardSalad.Vegetable.PEPPER, "PEPPER + PEPPER + PEPPER = 8");
+        
+        hand.addCard(player1.getPlayerID(), criteriaCard);
+        Card pointCard = new CardSalad(CardSalad.Vegetable.PEPPER, "");
+        pointCard.flipSide();
+        hand.addCard(player1.getPlayerID(), pointCard);
+        hand.addCard(player1.getPlayerID(), pointCard);
+        hand.addCard(player1.getPlayerID(), pointCard);
+
+        CalculateScore calculateScore = new CalculateScore(hand, player1.getPlayerID(), players);
+        assertEquals(8, calculateScore.returnScore());
+    }
+
+    @Test
     public void testCalculateScoreComplexAddition() {
         // Setup player hand with criteria card
         Card criteriaCard = new CardSalad(CardSalad.Vegetable.PEPPER, "CARROT + ONION = 5");
