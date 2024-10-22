@@ -34,7 +34,7 @@ In **PointSalad**, you can choose from the following gameplay modes:
    - Type `server` to host the game.
    - Type `client` to connect to a server. You will be asked to provide the server's IP address (default is `127.0.0.1`).
 
-4. After connecting, you will be prompted to select a gameplay mode:
+4. After connecting, you will be prompted to select a how many players or/and bots:
    - For **Player vs Player**, both players can connect as clients.
    - For **Player vs Bot**, one player will connect as a client, while the server runs the bot.
    - For **Bot vs Bot**, the server will control both bots using bot logic, and you can observe the game.
