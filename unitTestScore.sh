@@ -10,6 +10,8 @@ fi
 # Variables for directories and filesä
 Testing_DIR="testing"
 SRC_DIR="src"
+testing_DIR="testing"
+
 BUILD_DIR="build"
 LIB_DIR="lib"
 MAIN_CLASS="MainSalad"
@@ -45,7 +47,6 @@ LIB_CP="$JSON_JAR$SEP$LIB_CP"
 # Add build directory to classpath
 FULL_CP="$BUILD_DIR$SEP$LIB_CP"
 
-# Compile the Java source files
 echo "Compiling Java source files..."
 javac -cp "$LIB_CP" -d "$BUILD_DIR" $(find "$SRC_DIR" -name "*.java")
 

@@ -10,13 +10,13 @@ import java.util.ArrayList;
 
 
 public abstract class Game{
-    PileHandler piles;
-    PileHandler playerHand;
-    PileHandler market;
-    ArrayList<Player> players;
-    MarketPrinter marketPrinter;
-    SendToAllPlayers sender;
-    RefileMarket refiller;
+    private PileHandler piles;
+    private PileHandler playerHand;
+    private PileHandler market;
+    private ArrayList<Player> players;
+    private MarketPrinter marketPrinter;
+    private SendToAllPlayers sender;
+    private RefileMarket refiller;
 
     public Game(ArrayList<Player> players) {
         this.players = players;

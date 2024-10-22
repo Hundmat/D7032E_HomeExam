@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public abstract class Main {
     private IServer server;
-    IClient client;
+    private IClient client;
     private int numberPlayers = 0;
     private int numberOfBots = 0;
     private ArrayList<Player> players = new ArrayList<>();

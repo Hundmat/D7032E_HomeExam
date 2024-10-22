@@ -5,6 +5,7 @@ import game.players.Player;
 import game.bot.PlayerBot;
 import game.players.HumanPlayer;
 import network.Client;
+import game.gameLogic.PointSalad;
 
 public class MainSalad extends Main {
     private Server server;
@@ -55,7 +56,7 @@ public class MainSalad extends Main {
             e.printStackTrace();
         }
 
-        game.gameLogic.PointSalad game = new game.gameLogic.PointSalad(players);
+        PointSalad game = new PointSalad(players);
 
         
         game.run();

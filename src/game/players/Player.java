@@ -55,20 +55,14 @@ public abstract class Player {
         return this.lastMessage;
     }
 
-    // Method to add a card to the player's hand
-    public void addCardToHand(Card card) {
-        hand.add(card);
-    }
+    
 
     // Method to get the player's unique ID
     public int getPlayerID() {
         return this.playerID;
     }
 
-    // Method to get the player's current hand of cards
-    public ArrayList<Card> getHand() {
-        return this.hand;
-    }
+    
 
   
 

@@ -11,30 +11,35 @@ import java.io.ObjectOutputStream;
 
 
 public class PlayerBot extends Player {
-    public ArrayList<Card> hand;
     String lastMessage = "";
     public PlayerBot(int playerID, Socket connection, ObjectInputStream inFromClient, ObjectOutputStream outToClient, boolean online){
         super(playerID, connection, inFromClient, outToClient,online);
         
-        this.hand = new ArrayList<Card>();
+        
     }
 
     public int getPlayerID() {
         return this.playerID;
     }
 
-    public void addCardToHand(Card card) {
-        hand.add(card);
+    public String readMessage() {
+        String word = ""; 
+		
+		try{word = (String) inFromClient.readObject();} catch (Exception e){}
+        return word;
     }
 
     public void sendMessage(Object message) {
         System.out.println(message);
-        this.lastMessage = message.toString();
     }
 
-    public ArrayList<Card> getHand() {
-        return this.hand;
-    }
+    public void setScore(int score) {
+		this.score = score;
+   }
+
+   public int getScore() {
+	   return this.score;
+   }
 
     
     public boolean isBot() {
@@ -50,5 +55,7 @@ public class PlayerBot extends Player {
     public String getLastMessage() {
         return this.lastMessage;
     }
+
+    
     
 }

@@ -15,7 +15,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
-import game.bot.PlayerBot;
 import game.gameLogic.PointSalad;
 import game.market.MarketPile;
 import game.market.RefileMarketSalad;

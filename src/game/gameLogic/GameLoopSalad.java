@@ -10,21 +10,19 @@ import game.players.Player;
 import game.players.PlayerHand;
 import game.piles.SetPileSalad;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class GameLoopSalad extends GameLoop{
-    MarketPrinterSalad marketPrinter;
-    SetPileSalad piles;
-    PlayerHand playerHand;
-    ArrayList<Player> players;
-    MarketPile market;
-    int currentPlayer;
-    boolean keepPlaying;
-    Player activePlayer;
-    RefileMarketSalad refiller;
-    Player thisPlayer;
-    SendToAllPlayers sender;
+    private MarketPrinterSalad marketPrinter;
+    private SetPileSalad piles;
+    private PlayerHand playerHand;
+    private ArrayList<Player> players;
+    private MarketPile market;
+    private int currentPlayer;
+    private boolean keepPlaying;
+    private RefileMarketSalad refiller;
+    private Player thisPlayer;
+    private SendToAllPlayers sender;
    
 
     public GameLoopSalad( ArrayList<Player> players, SetPileSalad piles,PlayerHand playerHand,MarketPile market,MarketPrinterSalad marketPrinter,RefileMarketSalad refiller){

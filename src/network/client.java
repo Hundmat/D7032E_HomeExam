@@ -31,8 +31,10 @@ public class Client implements IClient{
                 Scanner in = new Scanner(System.in);
                 outToServer.writeObject(in.nextLine());
                 outToServer.flush();
+                
             }
         }
         aSocket.close();
+        
     }
 }

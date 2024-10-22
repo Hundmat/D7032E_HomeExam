@@ -5,11 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
-
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import game.bot.BotLogicSalad;
 import game.bot.PlayerBot;
 import game.gameLogic.GameLoopSalad;
 import game.gameLogic.PointSalad;
